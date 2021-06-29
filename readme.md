@@ -56,37 +56,37 @@
                     - -p <PORT-OF-LOCAL-MACHINE>:<PORT-EXPOSED-BY-CONTAINER>
             - --name sql1
                 - the container name in which the image will be hosted and executed
-                - --name <CONTAINER-NAME>
+                - --name [CONTAINER-NAME]
             - -h sql1, the host name (this is used only in case of Database Servers)
             -  -d mcr.microsoft.com/mssql/server:2019-latest
                 - The image that will be loaded into container and executed
-                    - -d <IMAGE-NAME>               
+                    - -d [IMAGE-NAME]               
         - OPening the container in Interactive Mode, so that we can access the contents of container
-            - docker exec -it <CONTAINER-NAME> "bash"
+            - docker exec -it [CONTAINER-NAME] "bash"
         - inreatcting with SQL Server inside the container using SQLCMD
             - /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P P@ssw0rd_                
 6. How to Create Image?
     - Creat dockerfile that will contains all configuration for creating image
     - Define the base or runtime image that will be used by your application as depednency
-        - FROM <IMAGE-FROM-REPPOSITORY>
+        - FROM [IMAGE-FROM-REPPOSITORY]
     - Define a Workdirectory for the application in the container
-        - WORKDIR <dir-name>
+        - WORKDIR [dir-name]
     - Copy project file of the ASP.NET Core Application into the image
-        - COPY <PROJECT-FILE> <TARGET-DIRECTORY-ON-IMAGE>
+        - COPY [PROJECT-FILE] [TARGET-DIRECTORY-ON-IMAGE]
     - Run the command to build the dependencies in the image
         - RUN dotnet restore <PROJECT-FILE-NAME>      
     - Copy the code file from Source to Targer
-        - COPY <SOURCE-DIRECTORY-FROM-PROJECT> <TARGET-DIRECTORY-ON-IMAGE>
+        - COPY [SOURCE-DIRECTORY-FROM-PROJECT] [TARGET-DIRECTORY-ON-IMAGE]
     - Build the app inside the image
-        - RUN dotnet build <PROJECT-FILE> -c Debug -o <OUTPUT-PATH>
+        - RUN dotnet build [PROJECT-FILE] -c Debug -o [OUTPUT-PATH]
     - Define which base runtime wil be used by the application in image to execute the application
-        - FROM <ASP.NET-CORE-IMAGE>
+        - FROM [ASP.NET-CORE-IMAGE]
     - Set the Working Directory aka Application Directory for execution
-        - WORKDIR <DIR-PATH-FROM-WHERE-THE-APP-STARTS>
+        - WORKDIR [DIR-PATH-FROM-WHERE-THE-APP-STARTS]
     - Copy build output to the Working Directory
-        - COPY --from=<RUNTIME-IMAGE-NAME-OR-ITS-ALISE> <BUILD-SOURCE-PATH>
+        - COPY --from=[RUNTIME-IMAGE-NAME-OR-ITS-ALISE] [BUILD-SOURCE-PATH]
     - Expose the port ffrom the container so that it can accept requistes from outside world
-        - EXPORT <PORT>
+        - EXPORT [PORT]
     - Set an Entry-point to start execution of the application in the ontainer
         - ENTRYPOINT ["dotnet", "<APPLICATION.DLL-FOR-ASPNET-CORE-APP>"]    
 ``` csharp
@@ -106,22 +106,22 @@ ENTRYPOINT [ "dotnet", "serverapp.dll"]
 ```
 
     - Run the following command to build the docker image. Make sure that the path from which the following command is executed, must contain the Dockerfile
-        - docker build . -t <IMAGE-NAME>:<TAG>
+        - docker build . -t [IMAGE-NAME]:[TAG]
         - docker build . -t service:v1
 7. How to Run the Image inside default container provided by docker?
-    - docker run -p <LOCAL-POTY>:<CONTAINER-PORT> <IMAGE-NAME>:<TAG>
+    - docker run -p [LOCAL-POTY]:[CONTAINER-PORT] [IMAGE-NAME]:[TAG]
 8. How to Run the image inside a container created by us?
-    - docker run -p <LOCAL-POTY>:<CONTAINER-PORT> --name=<CONTAINER-NAME> <IMAGE-NAME>:<TAG>
+    - docker run -p [LOCAL-POTY]:[CONTAINER-PORT] --name=[CONTAINER-NAME] [IMAGE-NAME]:[TAG]
     - docker run -d -p 5000:80 --name=servervm service:v1
         - -d means the container is running in background till it does not thows exceptio or it is not stopped by us
 9. How to Stop and Delete Container?
     - Stopping container
-        - docker stop <CONTAINER-NAME | CONTAIER-ID>
+        - docker stop [CONTAINER-NAME | CONTAIER-ID]
     - Start the Stopped container
-        - docker start <CONTAINER-NAME | CONTAINER-ID>
+        - docker start [CONTAINER-NAME | CONTAINER-ID]
     - DELETE the Container
-        - docker rm <CONTAINER-NAME | CONTAIER-ID>     
+        - docker rm [CONTAINER-NAME | CONTAIER-ID]     
 
 10. How to Delete Image?
-    - docker rmi <IMAGE-NAME | IMAGE-ID>
+    - docker rmi [IMAGE-NAME | IMAGE-ID]
 11. How to Push Image in Public Repository?             
